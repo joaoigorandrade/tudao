@@ -8,6 +8,7 @@ Run this command on the terminal:
 
 ```
 npm install
+bower install
 ```
 
 After
