@@ -6,19 +6,22 @@
 
 Run this command on the terminal:
 
+Installing packages from NodeJS
 ```
 npm install
 ```
 
+Installing packages from Bower
 ```
 bower install
 ```
 
+Running Gulp
 ```
 gulp
 ```
 
-After
+And then...
 
 ```
 node Server.js
