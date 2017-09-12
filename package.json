@@ -1,0 +1,29 @@
+{
+  "name": "tudao",
+  "version": "1.0.0",
+  "description": "Tudão - Engenharia de Software",
+  "main": "Server.js",
+  "scripts": {
+    "test": "node Server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piiuzera/tudao.git"
+  },
+  "keywords": [
+    "tudao"
+  ],
+  "author": "Matheus Amaro (matheus.amaro@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/piiuzera/tudao/issues"
+  },
+  "homepage": "https://github.com/piiuzera/tudao#readme",
+  "dependencies": {
+    "body-parser": "^1.18.0",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4"
+  }
+}
