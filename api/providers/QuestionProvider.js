@@ -110,10 +110,29 @@ var QuestionController 	= require('../controllers/QuestionController');
 		}
 	};
 
-	self.Create 	= _create;
-	self.Update 	= _update;
-	self.Delete 	= _delete;
-	self.FindAll 	= _findAll;
-	self.FindById 	= _findByid;
+	var _findByDescription = function(request, response) {
+		var httpResponse = {};
+		httpResponse.date = new Date();
+		try {
+			var questions = QuestionController.FindByDescription(request.body.description);
+
+			httpResponse.success = true;
+			httpResponse.questions = questions;
+			response.status(HttpStatusCode.Success.OK)
+				.json(httpResponse);
+		} catch(ex) {
+			httpResponse.success = false;
+			httpResponse.message = ex;
+			response.status(HttpStatusCode.Error.UNAUTHORIZED)
+				.json(httpResponse);
+		}
+	};
+
+	self.Create 			= _create;
+	self.Update 			= _update;
+	self.Delete 			= _delete;
+	self.FindAll 			= _findAll;
+	self.FindById 			= _findByid;
+	self.FindByDescription 	= _findByDescription;
 
 })(this);

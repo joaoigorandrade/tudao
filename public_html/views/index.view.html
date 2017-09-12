@@ -1,0 +1,36 @@
+<div ng-init="Init()">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<div class="form-group">
+					<label>Description</label>
+					<textarea class="form-control" ng-model="filter.description" required="required" placeholder="Description" ng-change="GetByDescription()"></textarea>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Description</th>
+								<th>Answer</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="row-context-menu" ng-repeat="question in questions">
+								<td>{{ question.description }}</td>
+								<td>{{ question.answer }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

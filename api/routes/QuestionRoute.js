@@ -13,6 +13,7 @@ var QuestionProvider = require('../providers/QuestionProvider');
 		router.delete('/:id', QuestionProvider.Delete);
 		router.get('/', QuestionProvider.FindAll);
 		router.get('/:id', QuestionProvider.FindById);
+		router.post('/findByDescription', QuestionProvider.FindByDescription);
 
 		return router;
 	};

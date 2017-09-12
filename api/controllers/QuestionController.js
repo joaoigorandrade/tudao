@@ -25,7 +25,7 @@ var JsonFile 	= require('jsonfile');
 		for (var i = 0; i < QuestionFile.length; ++i) {
 			var objQuestion = QuestionFile[i];
 			if (objQuestion.id === id) {
-				objQuestion.updatedAt = question.updatedAt;
+				objQuestion.updatedAt = new Date();
 				objQuestion.description = question.description;
 				objQuestion.answer = question.answer;
 
@@ -77,10 +77,29 @@ var JsonFile 	= require('jsonfile');
 		throw 'Question is not found!';
 	};
 
-	self.Create 	= _create;
-	self.Update 	= _update;
-	self.Delete 	= _delete;
-	self.FindAll 	= _findAll;
-	self.FindById 	= _findById;
+	var _findByDescription = function(description) {
+		var QuestionFile 	  = self.FindAll();
+		var QuestionAvailable = [];
+
+		if (!description) {
+			return QuestionFile;
+		}
+
+		for (var i = 0; i < QuestionFile.length; ++i) {
+			var objQuestion = QuestionFile[i];
+			if (objQuestion.description.toLowerCase().indexOf(description.toLowerCase()) !== -1) {
+				QuestionAvailable.push(objQuestion);
+			}
+		}
+
+		return QuestionAvailable;
+	};
+
+	self.Create 			= _create;
+	self.Update 			= _update;
+	self.Delete 			= _delete;
+	self.FindAll 			= _findAll;
+	self.FindById 			= _findById;
+	self.FindByDescription 	= _findByDescription;
 
 })(this);

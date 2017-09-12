@@ -1,0 +1,97 @@
+<div ng-init="Init()">
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-collapse" id="toolbar">
+                            <div class="nav navbar-nav">
+                                <button type="button" class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#CreateUpdate" ng-click="ClearQuestion()" title="New Question">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                    New Question
+                                </button>
+
+                                <button type="button" class="btn btn-default navbar-btn" title="Refresh" ng-click="GetAllQuestions()">
+                                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Created At</th>
+								<th>Updated At</th>
+								<th>Description</th>
+								<th>Answer</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="row-context-menu" ng-repeat="question in questions">
+								<td>{{ question.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+								<td>{{ question.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
+								<td>{{ question.description }}</td>
+								<td>{{ question.answer }}</td>
+								<td class="text-center">
+									<button class="btn btn-default" ng-click="GetByIdQuestion(question.id)">
+										<i class="glyphicon glyphicon-pencil"></i>
+									</button>
+								</td>
+								<td class="text-center">
+									<button class="btn btn-danger" ng-click="ConfirmDeleteQuestion(question.id)">
+										<i class="glyphicon glyphicon-trash"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="CreateUpdate" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">
+						{{ question.id ? 'Edit Question' : 'New Question' }}
+					</h4>
+				</div>
+
+				<div class="modal-body">
+					<form>
+						<input type="hidden" ng-model="question.id">
+						<div class="form-group">
+							<label>Description</label>
+							<textarea class="form-control" ng-model="question.description" required="required" placeholder="Description"></textarea>
+						</div>
+
+						<div class="form-group">
+							<label>Answer</label>
+							<textarea class="form-control" ng-model="question.answer" required="required" placeholder="Answer"></textarea>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" ng-click="SaveQuestion($event)" data-loading-text="Saving..." class="btn btn-primary" autocomplete="off">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
