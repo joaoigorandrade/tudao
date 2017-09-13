@@ -14,6 +14,11 @@ angular.module('TudaoApp').config(['$routeProvider', function($routeProvider) {
 			title: 'TudaoApp | Amaro Corp',
 			controller:  'QuestionController'
 		})
+		.when('/subject', {
+			templateUrl: 'views/subject.view.html',
+			title: 'TudaoApp | Amaro Corp',
+			controller:  'SubjectController'
+		})
 		.otherwise({
 			redirectTo: '/'
 		});

@@ -1,18 +1,24 @@
 angular.module('TudaoApp')
-	.controller('QuestionController', ['$scope', 'Question', 'Message',
-		function($scope, Question, Message) {
+	.controller('QuestionController', ['$scope', 'Question', 'Subject', 'Message',
+		function($scope, Question, Subject, Message) {
 			$scope.questions 	= [];
+			$scope.subjects 	= [];
 			$scope.question 	= {};
 
 			var _init = function() {
 				$scope.GetAllQuestions();
+				$scope.GetAllSubjects();
 			};
 
 			var _saveQuestion = function($event) {
 				var element = $event.currentTarget;
 				$(element).button('loading');
 
-				if ($scope.question.id) {
+				if ($scope.question) {
+					$scope.question.fkSubject = $scope.question.subject ? $scope.question.subject.id : null;
+				}
+
+				if ($scope.question && $scope.question.id) {
 					Question.Update(
 						$scope.question,
 						$scope.question.id,
@@ -36,7 +42,7 @@ angular.module('TudaoApp')
 
 				delete $scope.question;
 
-				$scope.Init();
+				$scope.GetAllQuestions();
 
 				Message.Show(data.message, 'Success', 'success');
 
@@ -84,6 +90,21 @@ angular.module('TudaoApp')
 				$scope.questions = data.questions;
 			};
 
+			var _getAllSubjects = function() {
+				Subject.FindAll(
+					SetAllSubjects
+				);
+			};
+
+			var SetAllSubjects = function(data, status) {
+				if (!data.success) {
+					Message.Show(data.message, 'Find has Error', 'error');
+
+					return;
+				}
+				$scope.subjects = data.subjects;
+			};
+
 			var _getByIdQuestion = function(id) {
 				Question.FindById(
 					id,
@@ -113,5 +134,6 @@ angular.module('TudaoApp')
 			$scope.DeleteQuestion 			= _deleteQuestion;
 			$scope.GetByIdQuestion 			= _getByIdQuestion;
 			$scope.GetAllQuestions 			= _getAllQuestions;
+			$scope.GetAllSubjects 			= _getAllSubjects;
 			$scope.ClearQuestion 			= _clearQuestion;
 }]);

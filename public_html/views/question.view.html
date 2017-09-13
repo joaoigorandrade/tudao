@@ -28,20 +28,22 @@
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th>Created At</th>
-								<th>Updated At</th>
 								<th>Description</th>
 								<th>Answer</th>
+								<th>Subject</th>
+								<th>Created</th>
+								<th>Updated</th>
 								<th></th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr class="row-context-menu" ng-repeat="question in questions">
-								<td>{{ question.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
-								<td>{{ question.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
 								<td>{{ question.description }}</td>
 								<td>{{ question.answer }}</td>
+								<td>{{ question.subject.name }}</td>
+								<td>{{ question.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+								<td>{{ question.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>			
 								<td class="text-center">
 									<button class="btn btn-default" ng-click="GetByIdQuestion(question.id)">
 										<i class="glyphicon glyphicon-pencil"></i>
@@ -76,20 +78,30 @@
 					<form>
 						<input type="hidden" ng-model="question.id">
 						<div class="form-group">
-							<label>Description</label>
+							<label>Subject:</label>
+							<select class="form-control"
+									ng-model="question.subject"
+									required="required"
+									ng-options="subject as subject.name for subject in subjects track by subject.id">
+									<option value="">Select the Subject</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label>Description:</label>
 							<textarea class="form-control" ng-model="question.description" required="required" placeholder="Description"></textarea>
 						</div>
 
 						<div class="form-group">
-							<label>Answer</label>
+							<label>Answer:</label>
 							<textarea class="form-control" ng-model="question.answer" required="required" placeholder="Answer"></textarea>
 						</div>
 					</form>
 				</div>
 
 				<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" ng-click="SaveQuestion($event)" data-loading-text="Saving..." class="btn btn-primary" autocomplete="off">Save</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" ng-click="SaveQuestion($event)" data-loading-text="Saving..." class="btn btn-primary" autocomplete="off">Save</button>
 				</div>
 			</div>
 		</div>

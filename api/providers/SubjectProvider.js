@@ -2,8 +2,8 @@
 
 var HttpStatusCode 		= require('../../config/HttpStatusCode');
 var HttpResponseMessage = require('../../config/HttpResponseMessage');
-var Question 			= require('../models/Question');
-var QuestionController 	= require('../controllers/QuestionController');
+var Subject 			= require('../models/Subject');
+var SubjectController 	= require('../controllers/SubjectController');
 
 (function(self) {
 
@@ -11,11 +11,11 @@ var QuestionController 	= require('../controllers/QuestionController');
 		var httpResponse = {};
 		httpResponse.date = new Date();
 		try {
-			var question = new Question(request.body);
-			QuestionController.Create(question);
+			var subject = new Subject(request.body);
+			SubjectController.Create(subject);
 
 			httpResponse.success = true;
-			httpResponse.question = question;
+			httpResponse.subject = subject;
 			httpResponse.message = HttpResponseMessage.SaveSuccess;
 			response.status(HttpStatusCode.Success.CREATED)
 				.json(httpResponse);
@@ -34,11 +34,11 @@ var QuestionController 	= require('../controllers/QuestionController');
 			if (request.params.id && isNaN(request.params.id))
 				throw { id: 'The id field is required.' };
 
-			var question = new Question(request.body);
-			QuestionController.Update(question, parseInt(request.params.id));
+			var subject = new Subject(request.body);
+			SubjectController.Update(subject, parseInt(request.params.id));
 
 			httpResponse.success = true;
-			httpResponse.question = question;
+			httpResponse.subject = subject;
 			httpResponse.message = HttpResponseMessage.SaveSuccess;
 			response.status(HttpStatusCode.Success.ACCEPTED)
 				.json(httpResponse);
@@ -57,7 +57,7 @@ var QuestionController 	= require('../controllers/QuestionController');
 			if (request.params.id && isNaN(request.params.id))
 				throw { id: 'The id field is required.' };
 
-			QuestionController.Delete(parseInt(request.params.id));
+			SubjectController.Delete(parseInt(request.params.id));
 
 			httpResponse.success = true;
 			httpResponse.message = HttpResponseMessage.DeleteSuccess;
@@ -75,10 +75,10 @@ var QuestionController 	= require('../controllers/QuestionController');
 		var httpResponse = {};
 		httpResponse.date = new Date();
 		try {
-			var questions = QuestionController.FindAll();
+			var subjects = SubjectController.FindAll();
 
 			httpResponse.success = true;
-			httpResponse.questions = questions;
+			httpResponse.subjects = subjects;
 			response.status(HttpStatusCode.Success.OK)
 				.json(httpResponse);
 		} catch(ex) {
@@ -96,10 +96,10 @@ var QuestionController 	= require('../controllers/QuestionController');
 			if (request.params.id && isNaN(request.params.id))
 				throw { id: 'The id field is required.' };
 
-			var question = QuestionController.FindById(parseInt(request.params.id));
+			var subject = SubjectController.FindById(parseInt(request.params.id));
 
 			httpResponse.success = true;
-			httpResponse.question = question;
+			httpResponse.subject = subject;
 			response.status(HttpStatusCode.Success.OK)
 				.json(httpResponse);
 		} catch(ex) {
@@ -110,10 +110,10 @@ var QuestionController 	= require('../controllers/QuestionController');
 		}
 	};
 
-	self.Create 	= _create;
-	self.Update 	= _update;
-	self.Delete 	= _delete;
-	self.FindAll 	= _findAll;
-	self.FindById 	= _findByid;
+	self.Create 			= _create;
+	self.Update 			= _update;
+	self.Delete 			= _delete;
+	self.FindAll 			= _findAll;
+	self.FindById 			= _findByid;
 
 })(this);
