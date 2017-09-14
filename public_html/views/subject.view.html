@@ -34,7 +34,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="row-context-menu" ng-repeat="subject in subjects">
+							<tr class="row-context-menu" ng-repeat="subject in subjects | orderBy: 'name'">
 								<td>{{ subject.name }}</td>
 								<td>{{ subject.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
 								<td>{{ subject.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
