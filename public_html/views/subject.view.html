@@ -31,8 +31,6 @@
 								<th>Name</th>
 								<th>Created</th>
 								<th>Updated</th>
-								<th></th>
-								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -40,16 +38,6 @@
 								<td>{{ subject.name }}</td>
 								<td>{{ subject.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
 								<td>{{ subject.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
-								<td class="text-center">
-									<button class="btn btn-default" ng-click="GetByIdSubject(subject.id)">
-										<i class="glyphicon glyphicon-pencil"></i>
-									</button>
-								</td>
-								<td class="text-center">
-									<button class="btn btn-danger" ng-click="ConfirmDeleteSubject(subject.id)">
-										<i class="glyphicon glyphicon-trash"></i>
-									</button>
-								</td>
 							</tr>
 						</tbody>
 					</table>
