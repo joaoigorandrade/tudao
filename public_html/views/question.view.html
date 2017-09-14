@@ -33,8 +33,6 @@
 								<th>Subject</th>
 								<th>Created</th>
 								<th>Updated</th>
-								<th></th>
-								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -43,17 +41,7 @@
 								<td>{{ question.answer }}</td>
 								<td>{{ question.subject.name }}</td>
 								<td>{{ question.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
-								<td>{{ question.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>			
-								<td class="text-center">
-									<button class="btn btn-default" ng-click="GetByIdQuestion(question.id)">
-										<i class="glyphicon glyphicon-pencil"></i>
-									</button>
-								</td>
-								<td class="text-center">
-									<button class="btn btn-danger" ng-click="ConfirmDeleteQuestion(question.id)">
-										<i class="glyphicon glyphicon-trash"></i>
-									</button>
-								</td>
+								<td>{{ question.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
 							</tr>
 						</tbody>
 					</table>
