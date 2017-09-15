@@ -4,9 +4,26 @@ angular.module('TudaoApp')
 			$scope.questions 	= [];
 			$scope.subjects 	= [];
 			$scope.filter 		= {};
+			$scope.grid 		= {};
 
 			var _init = function() {
+				if (!$localStorage.questions) {
+					$scope.GetAllQuestions();
+				} else {
+					$scope.questions = $localStorage.questions;
+				}
+
+				if (!$localStorage.subjects) {
+					$scope.GetAllSubjects();
+				} else {
+					$scope.subjects = $localStorage.subjects;
+				}
+
+				$scope.GridConfiguration();
 				$scope.GetFilterStorage();
+			};
+
+			var _refresh = function() {
 				$scope.GetAllQuestions();
 				$scope.GetAllSubjects();
 			};
@@ -56,6 +73,8 @@ angular.module('TudaoApp')
 				$scope.questions = $localStorage.questions.filter(
 					SetFilter
 				);
+
+				$scope.GridConfiguration();
 			};
 
 			var SetFilter = function(question) {
@@ -66,10 +85,41 @@ angular.module('TudaoApp')
 					   (!subject     || (subject     && question.subject.id === subject.id));
 			};
 
-			$scope.Init 			= _init;
-			$scope.GetAllQuestions 	= _getAllQuestions;
-			$scope.GetAllSubjects 	= _getAllSubjects;
-			$scope.GetFilterStorage = _getFilterStorage;
-			$scope.SetFilterStorage = _setFilterStorage;
-			$scope.GetFilter 		= _getFilter;
+			var _gridConfiguration = function() {
+				$scope.grid.size 		= 10;
+				$scope.grid.currentPage = 1;
+				$scope.grid.pages 		= [];
+
+				var totalPages = 0;
+				if ($scope.questions.length > $scope.grid.size) {
+					if ($scope.questions.length % $scope.grid.size === 0) {
+						totalPages = $scope.questions.length / $scope.grid.size;
+					} else {
+						totalPages = parseInt($scope.questions.length / $scope.grid.size) + 1;
+					}
+				} else {
+					totalPages = 1;
+				}
+
+				for (var i = 0; i < totalPages; ++i) {
+					$scope.grid.pages.push((i + 1));
+				}
+			};
+
+			var _setPage = function(currentPage) {
+				if (currentPage < 1 || currentPage > $scope.grid.pages.length)
+					return;
+
+				$scope.grid.currentPage = currentPage;
+			};
+
+			$scope.Init 				= _init;
+			$scope.Refresh 				= _refresh;
+			$scope.GetAllQuestions 		= _getAllQuestions;
+			$scope.GetAllSubjects 		= _getAllSubjects;
+			$scope.GetFilterStorage 	= _getFilterStorage;
+			$scope.SetFilterStorage 	= _setFilterStorage;
+			$scope.GetFilter 			= _getFilter;
+			$scope.GridConfiguration 	= _gridConfiguration;
+			$scope.SetPage 				= _setPage;
 }]);

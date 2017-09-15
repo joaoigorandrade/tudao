@@ -1,29 +1,58 @@
 <div ng-init="Init()">
-
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
                 <nav class="navbar navbar-default">
-                    <div class="container-fluid">
-                        <div class="navbar-collapse" id="toolbar">
+                    <div class="navbar-collapse" id="toolbar">
+                    	<div class="col-xs-6">
                             <div class="nav navbar-nav">
                                 <button type="button" class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#CreateUpdate" ng-click="ClearSubject()" title="New Subject">
                                     <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
-                                    New Subject
                                 </button>
 
-                                <button type="button" class="btn btn-default navbar-btn" title="Refresh" ng-click="GetAllSubjects()">
+                                <button type="button" class="btn btn-default navbar-btn" title="Refresh" ng-click="Refresh()">
                                     <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i>
                                 </button>
                             </div>
-                        </div>
+                    	</div>
+                    	<div class="col-xs-6">
+                            <div class="nav navbar-nav navbar-right pull-right">
+                                <button type="button" class="btn btn-default navbar-btn" ng-click="SetPage(grid.currentPage - 1)" ng-disabled="grid.currentPage === 1">
+                                	<i class="glyphicon glyphicon-backward" aria-hidden="true"></i>
+                                </button>
+
+                                <label>
+                                	{{ grid.currentPage + ' of ' + grid.pages.length }}
+                                </label>
+
+                                <button type="button" class="btn btn-default navbar-btn" ng-click="SetPage(grid.currentPage + 1)" ng-disabled="grid.currentPage === grid.pages.length">
+                                	<i class="glyphicon glyphicon-forward" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    	</div>
                     </div>
                 </nav>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Filter
+						<button type="button" class="close" ng-click="ToggleFilter()">
+							<i class="glyphicon {{ isFilter ? 'glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down' }}"></i>
+						</button>
+					</div>
+					<div id="filter" class="panel-body">
+						<div class="form-group">
+							<label>Name:</label>
+							<input type="text" class="form-control" placeholder="All Names" ng-model="filter.name" ng-change="GetFilter()">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-10">
 				<div class="table-responsive">
 					<table class="table table-bordered">
 						<thead>

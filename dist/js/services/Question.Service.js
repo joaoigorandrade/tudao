@@ -39,18 +39,9 @@ angular.module('TudaoApp')
 				);
 			};
 
-			var _findByDescription = function(filter, callback) {
-				Web.Post(
-					'/api/question/findByDescription',
-					filter,
-					callback
-				);
-			};
-
 			this.Create 			= _create;
 			this.Update 			= _update;
 			this.Delete 			= _delete;
 			this.FindAll 			= _findAll;
 			this.FindById 			= _findById;
-			this.FindByDescription 	= _findByDescription;
 }]);

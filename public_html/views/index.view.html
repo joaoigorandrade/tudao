@@ -1,6 +1,36 @@
 <div ng-init="Init()">
 	<div class="container-fluid">
 		<div class="row">
+			<div class="col-md-12">
+                <nav class="navbar navbar-default">
+                    <div class="navbar-collapse" id="toolbar">
+                    	<div class="col-xs-6">
+                            <div class="nav navbar-nav">
+                                <button type="button" class="btn btn-default navbar-btn" title="Refresh" ng-click="Refresh()">
+                                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    	</div>
+                    	<div class="col-xs-6">
+                            <div class="nav navbar-nav navbar-right pull-right">
+                                <button type="button" class="btn btn-default navbar-btn" ng-click="SetPage(grid.currentPage - 1)" ng-disabled="grid.currentPage === 1">
+                                	<i class="glyphicon glyphicon-backward" aria-hidden="true"></i>
+                                </button>
+
+                                <label>
+                                	{{ grid.currentPage + ' of ' + grid.pages.length }}
+                                </label>
+
+                                <button type="button" class="btn btn-default navbar-btn" ng-click="SetPage(grid.currentPage + 1)" ng-disabled="grid.currentPage === grid.pages.length">
+                                	<i class="glyphicon glyphicon-forward" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    	</div>
+                    </div>
+                </nav>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-md-2"></div>
 			<div class="col-md-8">
 				<div class="form-group">
@@ -9,7 +39,7 @@
 							ng-model="filter.subject"
 							ng-change="SetFilterStorage()"
 							required="required"
-							ng-options="subject as subject.name for subject in subjects track by subject.id">
+							ng-options="subject as subject.name for subject in subjects | orderBy:'name' track by subject.id">
 							<option value="">All Subjects</option>
 					</select>
 				</div>
@@ -24,12 +54,12 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<div class="panel panel-default" ng-repeat="question in questions">
+				<div class="panel panel-default" ng-repeat="question in questions | limitTo: grid.size:(grid.currentPage-1)*grid.size | orderBy:'description'">
 					<div class="panel-heading">
-						{{ question.description }}
+						{{ question.description && question.description.length > 150 ? question.description.substring(0, 150) + '...' : question.description }}
 					</div>
 					<div class="panel-body">
-						{{ question.answer }}
+						<label>{{ question.answer }}</label>
 					</div>
 				</div>
 			</div>

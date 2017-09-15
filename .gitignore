@@ -30,3 +30,5 @@ node_modules
 public_html/libs/
 
 public_html/dist/
+
+files/
