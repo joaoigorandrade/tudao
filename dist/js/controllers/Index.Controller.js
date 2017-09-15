@@ -21,6 +21,7 @@ angular.module('TudaoApp')
 
 				$scope.GridConfiguration();
 				$scope.GetFilterStorage();
+				$scope.GetFilter();
 			};
 
 			var _refresh = function() {
