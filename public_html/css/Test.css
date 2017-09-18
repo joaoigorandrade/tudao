@@ -18,7 +18,7 @@
 }
 
 .test-content .test-button .btn {
-	height: 73px !important;
+	height: 40px !important;
 	width: 50px !important;
 	word-wrap: break-word;
 	border-top-right-radius: 0px !important;
@@ -43,7 +43,7 @@
 .test-content .test-panel .panel-heading {
 	border-top-left-radius: 0px !important;
 	border-bottom-left-radius: 0px !important;
-	height: 73px !important;
+	height: 40px !important;
 }
 
 .test-content .test-panel .panel-body {

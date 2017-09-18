@@ -22,7 +22,7 @@
                                 </button>
 
                                 <label>
-                                	{{ grid.currentPage }}
+                                	{{ grid.currentPage + ' of ' + grid.pages.length }}
                                 </label>
 
                                 <button type="button" class="btn btn-default navbar-btn" ng-click="SetPage(grid.currentPage + 1)" ng-disabled="grid.currentPage === grid.pages.length">
