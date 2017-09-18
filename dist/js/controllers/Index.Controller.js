@@ -1,10 +1,17 @@
 angular.module('TudaoApp')
-	.controller('IndexController', ['$scope', 'Question', 'Subject', '$localStorage',
-		function($scope, Question, Subject, $localStorage) {
+	.controller('IndexController', ['$scope', 'Question', 'Subject', 'Test', '$localStorage', '$interval', 'Message',
+		function($scope, Question, Subject, Test, $localStorage, $interval, Message) {
 			$scope.questions 	= [];
 			$scope.subjects 	= [];
+			$scope.tests 		= [];
+			$scope.test 		= {};
+			$scope.testsNotRead = 0;
+			$scope.testOpened 	= false;
+			$scope.newTest 		= false;
 			$scope.filter 		= {};
 			$scope.grid 		= {};
+
+			var testInterval 	= null;
 
 			var _init = function() {
 				if (!$localStorage.questions) {
@@ -19,14 +26,22 @@ angular.module('TudaoApp')
 					$scope.subjects = $localStorage.subjects;
 				}
 
+				if (!$localStorage.tests) {
+					$scope.GetAllTests();
+				} else {
+					$scope.tests = $localStorage.tests;
+				}
+
 				$scope.GridConfiguration();
 				$scope.GetFilterStorage();
 				$scope.GetFilter();
+				$scope.GetTestsLoop();
 			};
 
 			var _refresh = function() {
 				$scope.GetAllQuestions();
 				$scope.GetAllSubjects();
+				$scope.GetAllTests();
 			};
 
 			var _getAllQuestions = function() {
@@ -60,6 +75,45 @@ angular.module('TudaoApp')
 				$scope.subjects = data.subjects;
 			};
 
+			var _getAllTests = function() {
+				if (!$scope.filter.subject)
+					return;
+
+				Test.FindByFkSubject(
+					$scope.filter.subject.id,
+					SetAllTests
+				);
+			};
+
+			var SetAllTests = function(data, status) {
+				if (!data.success) {
+					Message.Show(data.message, 'Find has Error', 'error');
+
+					return;
+				}
+
+				if (data.tests.length === $scope.tests.length)
+					return;
+
+				$scope.testsNotRead = $scope.testsNotRead + (data.tests.length - $scope.tests.length);
+				$scope.tests 		= $localStorage.tests = data.tests;
+			};
+
+			var _getTestsLoop = function() {
+				SetTestsLoop();
+				testInterval = $interval(
+					SetTestsLoop,
+					3000
+				);
+			};
+
+			var SetTestsLoop = function() {
+				if ($scope.testOpened) {
+					$scope.testsNotRead = 0;
+				}
+				$scope.GetAllTests();
+			};
+
 			var _getFilterStorage = function() {
 				if ($localStorage.subject)
 					$scope.filter.subject = $localStorage.subject;
@@ -68,6 +122,53 @@ angular.module('TudaoApp')
 			var _setFilterStorage = function() {
 				$localStorage.subject = $scope.filter.subject;
 				$scope.GetFilter();
+			};
+
+			var _toggleTest = function() {
+				$scope.testOpened 	= !$scope.testOpened;
+				if ($scope.testOpened) {
+					$scope.testsNotRead = 0;
+				}
+			};
+
+			var _toggleNewTest = function(test) {
+				$scope.newTest = !$scope.newTest;
+				$scope.test = test || {};
+			};
+
+			var _saveTest = function() {
+				$('#send').button('loading');
+
+				if ($scope.filter.subject)
+					$scope.test.subject 	= $scope.filter.subject;
+					$scope.test.fkSubject 	= $scope.filter.subject.id;
+
+				if ($scope.test && $scope.test.id) {
+					Test.Update(
+						$scope.test,
+						$scope.test.id,
+						CallbackSaveTest
+					);
+				} else {
+					Test.Create(
+						$scope.test,
+						CallbackSaveTest
+					);
+				}
+			};
+
+			var CallbackSaveTest = function(data, status) {
+				$('#send').button('reset');
+
+				if (!data.success) {
+					Message.Show(data.message, 'Save has Error', 'error');
+					return;
+				}
+
+				delete $scope.test;
+
+				$scope.GetAllTests();
+				$scope.ToggleNewTest();
 			};
 
 			var _getFilter = function() {
@@ -114,12 +215,22 @@ angular.module('TudaoApp')
 				$scope.grid.currentPage = currentPage;
 			};
 
+			$scope.$on('$destroy', function() {
+			    if(testInterval)
+			        $interval.cancel(testInterval);   
+			});
+
 			$scope.Init 				= _init;
 			$scope.Refresh 				= _refresh;
 			$scope.GetAllQuestions 		= _getAllQuestions;
 			$scope.GetAllSubjects 		= _getAllSubjects;
+			$scope.GetAllTests 			= _getAllTests;
+			$scope.GetTestsLoop 		= _getTestsLoop;
 			$scope.GetFilterStorage 	= _getFilterStorage;
 			$scope.SetFilterStorage 	= _setFilterStorage;
+			$scope.ToggleTest 			= _toggleTest;
+			$scope.ToggleNewTest 		= _toggleNewTest;
+			$scope.SaveTest 			= _saveTest;
 			$scope.GetFilter 			= _getFilter;
 			$scope.GridConfiguration 	= _gridConfiguration;
 			$scope.SetPage 				= _setPage;

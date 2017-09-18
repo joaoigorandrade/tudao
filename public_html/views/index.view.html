@@ -1,4 +1,56 @@
 <div ng-init="Init()">
+	<div class="test-content">
+		<div class="col-xs-6 test-button">
+			<button class="btn btn-success" ng-click="ToggleTest()">
+				<label class="label label-danger" ng-if="testsNotRead > 0">
+					{{ testsNotRead }}
+				</label>
+				<i class="glyphicon {{ testOpened ? 'glyphicon-arrow-right' : 'glyphicon-arrow-left' }}"></i>
+			</button>
+		</div>
+		<div class="test-panel col-xs-6 panel panel-default" ng-if="testOpened">
+			<div class="panel-heading">
+	            <button type="button" class="btn btn-primary navbar-btn" ng-if="!newTest" ng-click="ToggleNewTest()">
+	            	<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+	            </button>
+
+	            <button type="button" class="btn btn-link navbar-btn" ng-if="newTest" ng-click="ToggleNewTest()">
+	            	<i class="glyphicon glyphicon-arrow-left" aria-hidden="true"></i>
+	            </button>
+			</div>
+			<div class="panel-body">
+				<div class="col-md-12">
+					<div ng-if="!newTest">
+						<blockquote ng-repeat="test in tests | orderBy:'description':true">
+							<p class="text-uppercase">
+								{{ test.description + ' - ' + test.answer }}
+							</p>
+							<footer>
+					            <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="ToggleNewTest(test)">
+					            	<i class="glyphicon glyphicon-pencil"></i>
+					            </button>
+							</footer>
+						</blockquote>
+					</div>
+					<div ng-if="newTest">
+						<form ng-submit="SaveTest()">
+							<div class="form-group">
+								<input class="form-control" placeholder="Description" ng-model="test.description" required="required"></input>
+							</div>
+
+							<div class="form-group">
+								<input class="form-control" placeholder="Answer" ng-model="test.answer" required="required"></input>
+							</div>
+
+							<div class="form-group">
+								<button id="send" data-loading-text="Sending..." class="btn btn-primary btn-block">Send</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
@@ -13,15 +65,15 @@
                     	</div>
                     	<div class="col-xs-6">
                             <div class="nav navbar-nav navbar-right pull-right">
-                                <button type="button" class="btn btn-default navbar-btn" ng-click="SetPage(grid.currentPage - 1)" ng-disabled="grid.currentPage === 1">
+                                <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="SetPage(grid.currentPage - 1)" ng-disabled="grid.currentPage === 1">
                                 	<i class="glyphicon glyphicon-backward" aria-hidden="true"></i>
                                 </button>
 
                                 <label>
-                                	{{ grid.currentPage }}
+                                	{{ grid.currentPage + ' of ' + grid.pages.length }}
                                 </label>
 
-                                <button type="button" class="btn btn-default navbar-btn" ng-click="SetPage(grid.currentPage + 1)" ng-disabled="grid.currentPage === grid.pages.length">
+                                <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="SetPage(grid.currentPage + 1)" ng-disabled="grid.currentPage === grid.pages.length">
                                 	<i class="glyphicon glyphicon-forward" aria-hidden="true"></i>
                                 </button>
                             </div>
