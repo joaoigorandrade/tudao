@@ -10,7 +10,7 @@
 		</div>
 		<div class="test-panel col-xs-6 panel panel-default" ng-if="testOpened">
 			<div class="panel-heading">
-	            <button type="button" class="btn btn-primary navbar-btn" ng-if="!newTest" ng-click="ToggleNewTest()">
+	            <button type="button" class="btn btn-primary navbar-btn" ng-if="!newTest" ng-disabled="!filter.subject" ng-click="ToggleNewTest()">
 	            	<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
 	            </button>
 
