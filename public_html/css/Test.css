@@ -50,6 +50,6 @@
 .test-content .test-panel .panel-body {
 	overflow-y: auto !important;
 	overflow-x: hidden !important;
-	height: 177px !important;
-	max-height: 177px !important;
+	height: 208px !important;
+	max-height: 208px !important;
 }
