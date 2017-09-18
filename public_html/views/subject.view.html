@@ -17,7 +17,7 @@
                     	</div>
                     	<div class="col-xs-6">
                             <div class="nav navbar-nav navbar-right pull-right">
-                                <button type="button" class="btn btn-default navbar-btn" ng-click="SetPage(grid.currentPage - 1)" ng-disabled="grid.currentPage === 1">
+                                <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="SetPage(grid.currentPage - 1)" ng-disabled="grid.currentPage === 1">
                                 	<i class="glyphicon glyphicon-backward" aria-hidden="true"></i>
                                 </button>
 
@@ -25,7 +25,7 @@
                                 	{{ grid.currentPage + ' of ' + grid.pages.length }}
                                 </label>
 
-                                <button type="button" class="btn btn-default navbar-btn" ng-click="SetPage(grid.currentPage + 1)" ng-disabled="grid.currentPage === grid.pages.length">
+                                <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="SetPage(grid.currentPage + 1)" ng-disabled="grid.currentPage === grid.pages.length">
                                 	<i class="glyphicon glyphicon-forward" aria-hidden="true"></i>
                                 </button>
                             </div>
