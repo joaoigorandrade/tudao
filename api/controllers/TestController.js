@@ -52,8 +52,8 @@ var SubjectController 	= require('./SubjectController');
 		var TestFile 	= JsonFile.readFileSync('./files/Test.json');
 		var test 		= self.FindById(id);
 
-		for (var i = 0; i < QuestionFile.length; ++i) {
-			var objTest = QuestionFile[i];
+		for (var i = 0; i < TestFile.length; ++i) {
+			var objTest = TestFile[i];
 			if (objTest.id === id) {
 				objTest.deletedAt = new Date();
 
