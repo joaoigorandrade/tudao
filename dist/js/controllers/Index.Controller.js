@@ -10,7 +10,11 @@ angular.module('TudaoApp')
 			$scope.newTest 		= false;
 			$scope.filter 		= {};
 			$scope.grid 		= {};
-
+			
+			var isRefreshed 	= false;
+			var isRefreshedQuestion = false;
+			var isRefreshedTest 	= false;
+			var isRefreshedSubject 	= false;
 			var testInterval 	= null;
 
 			var _init = function() {
@@ -39,18 +43,21 @@ angular.module('TudaoApp')
 			};
 
 			var _refresh = function() {
+				isRefreshed = true;
 				$scope.GetAllQuestions();
 				$scope.GetAllSubjects();
 				$scope.GetAllTests();
 			};
 
 			var _getAllQuestions = function() {
+				isRefreshedQuestion = true;
 				Question.FindAll(
 					SetAllQuestions
 				);
 			};
 
 			var SetAllQuestions = function(data, status) {
+				isRefreshedQuestion = false;
 				if (!data.success) {
 					Message.Show(data.message, 'Find has Error', 'error');
 
@@ -58,27 +65,38 @@ angular.module('TudaoApp')
 				}
 				$localStorage.questions = data.questions;
 				$scope.GetFilter();
+				
+				if (isRefreshedQuestion && isRefreshedTest && isRefreshedSubject)
+					isRefreshed = false;
 			};
 
 			var _getAllSubjects = function() {
+				isRefreshedSubject = true;
 				Subject.FindAll(
 					SetAllSubjects
 				);
 			};
 
 			var SetAllSubjects = function(data, status) {
+				isRefreshedSubject = false;
 				if (!data.success) {
 					Message.Show(data.message, 'Find has Error', 'error');
 
 					return;
 				}
 				$scope.subjects = data.subjects;
+				
+				if (isRefreshedQuestion && isRefreshedTest && isRefreshedSubject)
+					isRefreshed = false;
 			};
 
 			var _getAllTests = function() {
-				if (!$scope.filter.subject)
+				isRefreshedTest = true;
+				if (!$scope.filter.subject) {
+					isRefreshedTest = false;
 					return;
-
+				}
+				
 				Test.FindByFkSubject(
 					$scope.filter.subject.id,
 					SetAllTests
@@ -86,6 +104,7 @@ angular.module('TudaoApp')
 			};
 
 			var SetAllTests = function(data, status) {
+				isRefreshedTest = false;
 				if (!data.success) {
 					Message.Show(data.message, 'Find has Error', 'error');
 
@@ -97,6 +116,9 @@ angular.module('TudaoApp')
 
 				$scope.testsNotRead = $scope.testsNotRead + (data.tests.length - $scope.tests.length);
 				$scope.tests 		= $localStorage.tests = data.tests;
+				
+				if (isRefreshedQuestion && isRefreshedTest && isRefreshedSubject)
+					isRefreshed = false;
 			};
 
 			var _getTestsLoop = function() {
