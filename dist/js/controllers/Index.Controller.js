@@ -11,7 +11,6 @@ angular.module('TudaoApp')
 			$scope.filter 		= {};
 			$scope.grid 		= {};
 			
-			var isRefreshed 	= false;
 			var isRefreshedQuestion = false;
 			var isRefreshedTest 	= false;
 			var isRefreshedSubject 	= false;
@@ -43,7 +42,7 @@ angular.module('TudaoApp')
 			};
 
 			var _refresh = function() {
-				isRefreshed = true;
+				$('#refresh').button('loading');
 				$scope.GetAllQuestions();
 				$scope.GetAllSubjects();
 				$scope.GetAllTests();
@@ -66,8 +65,8 @@ angular.module('TudaoApp')
 				$localStorage.questions = data.questions;
 				$scope.GetFilter();
 				
-				if (isRefreshedQuestion && isRefreshedTest && isRefreshedSubject)
-					isRefreshed = false;
+				if (!isRefreshedQuestion && !isRefreshedTest && !isRefreshedSubject)
+					$('#refresh').button('reset');
 			};
 
 			var _getAllSubjects = function() {
@@ -86,8 +85,8 @@ angular.module('TudaoApp')
 				}
 				$scope.subjects = data.subjects;
 				
-				if (isRefreshedQuestion && isRefreshedTest && isRefreshedSubject)
-					isRefreshed = false;
+				if (!isRefreshedQuestion && !isRefreshedTest && !isRefreshedSubject)
+					$('#refresh').button('reset');
 			};
 
 			var _getAllTests = function() {
@@ -117,8 +116,8 @@ angular.module('TudaoApp')
 				$scope.testsNotRead = $scope.testsNotRead + (data.tests.length - $scope.tests.length);
 				$scope.tests 		= $localStorage.tests = data.tests;
 				
-				if (isRefreshedQuestion && isRefreshedTest && isRefreshedSubject)
-					isRefreshed = false;
+				if (!isRefreshedQuestion && !isRefreshedTest && !isRefreshedSubject)
+					$('#refresh').button('reset');
 			};
 
 			var _getTestsLoop = function() {
