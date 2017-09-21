@@ -57,6 +57,9 @@ angular.module('TudaoApp')
 
 			var SetAllQuestions = function(data, status) {
 				isRefreshedQuestion = false;
+				if (!isRefreshedQuestion && !isRefreshedTest && !isRefreshedSubject)
+					$('#refresh').button('reset');
+				
 				if (!data.success) {
 					Message.Show(data.message, 'Find has Error', 'error');
 
@@ -64,9 +67,6 @@ angular.module('TudaoApp')
 				}
 				$localStorage.questions = data.questions;
 				$scope.GetFilter();
-				
-				if (!isRefreshedQuestion && !isRefreshedTest && !isRefreshedSubject)
-					$('#refresh').button('reset');
 			};
 
 			var _getAllSubjects = function() {
@@ -78,15 +78,15 @@ angular.module('TudaoApp')
 
 			var SetAllSubjects = function(data, status) {
 				isRefreshedSubject = false;
+				if (!isRefreshedQuestion && !isRefreshedTest && !isRefreshedSubject)
+					$('#refresh').button('reset');
+				
 				if (!data.success) {
 					Message.Show(data.message, 'Find has Error', 'error');
 
 					return;
 				}
 				$scope.subjects = data.subjects;
-				
-				if (!isRefreshedQuestion && !isRefreshedTest && !isRefreshedSubject)
-					$('#refresh').button('reset');
 			};
 
 			var _getAllTests = function() {
@@ -104,6 +104,9 @@ angular.module('TudaoApp')
 
 			var SetAllTests = function(data, status) {
 				isRefreshedTest = false;
+				if (!isRefreshedQuestion && !isRefreshedTest && !isRefreshedSubject)
+					$('#refresh').button('reset');
+				
 				if (!data.success) {
 					Message.Show(data.message, 'Find has Error', 'error');
 
@@ -115,9 +118,6 @@ angular.module('TudaoApp')
 
 				$scope.testsNotRead = $scope.testsNotRead + (data.tests.length - $scope.tests.length);
 				$scope.tests 		= $localStorage.tests = data.tests;
-				
-				if (!isRefreshedQuestion && !isRefreshedTest && !isRefreshedSubject)
-					$('#refresh').button('reset');
 			};
 
 			var _getTestsLoop = function() {
