@@ -21,7 +21,7 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 					<div ng-if="!newTest">
-						<blockquote ng-repeat="test in tests | orderBy:'description':true">
+						<blockquote ng-repeat="test in tests | orderBy:'createdAt':true">
 							<p class="text-uppercase">
 								{{ test.description + ' - ' + test.answer }}
 							</p>
