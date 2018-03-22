@@ -2,7 +2,7 @@
 ## Development by Matheus Amaro
 ---
 
-#### Visit this page on the web: http://tudao.amarocorp.com.br
+#### Visit this page on the web: http://tudao.herokuapp.com
 
 ## Initializing
 
@@ -26,7 +26,7 @@ gulp
 And then...
 
 ```
-node Server.js
+node index.js
 ```
 
-Go to page: http://localhost:5011
+Go to page: http://localhost
