@@ -24,8 +24,8 @@ var Start 			= require('./Start');
 
 		Start.Init(App);
 
-		App.listen(5011, function() {
-			console.log("Server has Started: http://localhost:5011");
+		App.listen(80, function() {
+			console.log("Server has Started: http://localhost:80");
 		});
 	};
 
