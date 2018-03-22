@@ -26,7 +26,7 @@ gulp
 And then...
 
 ```
-node index.js
+node Server.js
 ```
 
 Go to page: http://localhost
