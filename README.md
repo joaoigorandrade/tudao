@@ -2,7 +2,7 @@
 ## Development by Matheus Amaro
 ---
 
-#### Visit this page on the web: http://tudao.herokuapp.com
+#### Visit this page on the web: http://tudao.fr.openode.io/
 
 ## Initializing
 
