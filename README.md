@@ -2,7 +2,7 @@
 ## Development by Matheus Amaro
 ---
 
-#### Visit this page on the web: http://tudao.fr.openode.io/
+#### Visit this page on the web: http://tudao.amarotech.com.br/
 
 ## Initializing
 
