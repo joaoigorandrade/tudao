@@ -1,0 +1,142 @@
+<div ng-init="Init()">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+                <nav class="navbar navbar-default">
+                    <div class="navbar-collapse" id="toolbar">
+                    	<div class="col-xs-6">
+                            <div class="nav navbar-nav">
+                                <button type="button" class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#CreateUpdate" ng-click="ClearQuestion()" title="New Question">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-default navbar-btn" title="Refresh" ng-click="Refresh()">
+                                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    	</div>
+                    	<div class="col-xs-6">
+                            <div class="nav navbar-nav navbar-right pull-right">
+                                <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="SetPage(grid.currentPage - 1)" ng-disabled="grid.currentPage === 1">
+                                	<i class="glyphicon glyphicon-backward" aria-hidden="true"></i>
+                                </button>
+
+                                <label>
+                                	{{ grid.currentPage + ' of ' + grid.pages.length }}
+                                </label>
+
+                                <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="SetPage(grid.currentPage + 1)" ng-disabled="grid.currentPage === grid.pages.length">
+                                	<i class="glyphicon glyphicon-forward" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    	</div>
+                    </div>
+                </nav>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Filter
+						<button type="button" class="close" ng-click="ToggleFilter()">
+							<i class="glyphicon {{ isFilter ? 'glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down' }}"></i>
+						</button>
+					</div>
+					<div id="filter" class="panel-body">
+						<div class="form-group">
+							<label>Description:</label>
+							<input type="text" class="form-control" placeholder="All Descriptions" ng-model="filter.description" ng-change="GetFilter()">
+						</div>
+
+						<div class="form-group">
+							<label>Answer:</label>
+							<input type="text" class="form-control" placeholder="All Answers" ng-model="filter.answer" ng-change="GetFilter()">
+						</div>
+
+						<div class="form-group">
+							<label>Subject:</label>
+							<select class="form-control"
+									ng-model="filter.subject"
+									required="required"
+									ng-change="GetFilter()"
+									ng-options="subject as subject.name for subject in subjects | orderBy:'name' track by subject.id">
+									<option value="">All Subjects</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-10">
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>Description</th>
+								<th>Answer</th>
+								<th>Subject</th>
+								<th>Created</th>
+								<th>Updated</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="row-context-menu" ng-repeat="question in questions | limitTo: grid.size:(grid.currentPage-1)*grid.size | orderBy:'description'">
+								<td>{{ question.description }}</td>
+								<td>{{ question.answer }}</td>
+								<td>{{ question.subject.name }}</td>
+								<td>{{ question.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+								<td>{{ question.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="CreateUpdate" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">
+						{{ question.id ? 'Edit Question' : 'New Question' }}
+					</h4>
+				</div>
+
+				<div class="modal-body">
+					<form>
+						<input type="hidden" ng-model="question.id">
+						<div class="form-group">
+							<label>Subject:</label>
+							<select class="form-control"
+									ng-model="question.subject"
+									required="required"
+									ng-options="subject as subject.name for subject in subjects | orderBy:'name' track by subject.id">
+									<option value="">Select the Subject</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label>Description:</label>
+							<textarea class="form-control" ng-model="question.description" required="required" placeholder="Description"></textarea>
+						</div>
+
+						<div class="form-group">
+							<label>Answer:</label>
+							<textarea class="form-control" ng-model="question.answer" required="required" placeholder="Answer"></textarea>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" ng-click="SaveQuestion($event)" data-loading-text="Saving..." class="btn btn-primary" autocomplete="off">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,121 @@
+<div ng-init="Init()">
+	<div class="test-content">
+		<div class="col-xs-6 test-button">
+			<button class="btn btn-success" ng-click="ToggleTest()">
+				<label class="label label-danger" ng-if="testsNotRead > 0">
+					{{ testsNotRead }}
+				</label>
+				<i class="glyphicon {{ testOpened ? 'glyphicon-arrow-right' : 'glyphicon-arrow-left' }}"></i>
+			</button>
+		</div>
+		<div class="test-panel col-xs-6 panel panel-default" ng-if="testOpened">
+			<div class="panel-heading">
+	            <button type="button" class="btn btn-xs btn-primary" ng-if="!newTest" ng-disabled="!filter.subject" ng-click="ToggleNewTest()">
+	            	<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+	            </button>
+
+	            <button type="button" class="btn btn-xs btn-link" ng-if="newTest" ng-click="ToggleNewTest()">
+	            	<i class="glyphicon glyphicon-arrow-left" aria-hidden="true"></i>
+	            </button>
+			</div>
+			<div class="panel-body">
+				<div class="col-md-12">
+					<div ng-if="!newTest">
+						<blockquote ng-repeat="test in tests | orderBy:'createdAt':true">
+							<p class="text-uppercase">
+								{{ test.description + ' - ' + test.answer }}
+							</p>
+							<footer>
+					            <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="ToggleNewTest(test)">
+					            	<i class="glyphicon glyphicon-pencil"></i>
+					            </button>
+							</footer>
+						</blockquote>
+					</div>
+					<div ng-if="newTest">
+						<form ng-submit="SaveTest()">
+							<div class="form-group">
+								<input class="form-control" placeholder="Description" ng-model="test.description" required="required"></input>
+							</div>
+
+							<div class="form-group">
+								<input class="form-control" placeholder="Answer" ng-model="test.answer" required="required"></input>
+							</div>
+
+							<div class="form-group">
+								<button id="send" data-loading-text="Sending..." class="btn btn-primary btn-block">Send</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+                <nav class="navbar navbar-default">
+                    <div class="navbar-collapse" id="toolbar">
+                    	<div class="col-xs-6">
+                            <div class="nav navbar-nav">
+                                <button id="refresh" type="button" class="btn btn-default navbar-btn" title="Refresh" data-loading-text="Refreshing..." ng-click="Refresh()">
+                                    <i class="glyphicon glyphicon-refresh" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    	</div>
+                    	<div class="col-xs-6">
+                            <div class="nav navbar-nav navbar-right pull-right">
+                                <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="SetPage(grid.currentPage - 1)" ng-disabled="grid.currentPage === 1">
+                                	<i class="glyphicon glyphicon-backward" aria-hidden="true"></i>
+                                </button>
+
+                                <label>
+                                	{{ grid.currentPage + ' of ' + grid.pages.length }}
+                                </label>
+
+                                <button type="button" class="btn btn-xs btn-default navbar-btn" ng-click="SetPage(grid.currentPage + 1)" ng-disabled="grid.currentPage === grid.pages.length">
+                                	<i class="glyphicon glyphicon-forward" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    	</div>
+                    </div>
+                </nav>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<div class="form-group">
+					<label>Subject:</label>
+					<select class="form-control"
+							ng-model="filter.subject"
+							ng-change="SetFilterStorage()"
+							required="required"
+							ng-options="subject as subject.name for subject in subjects | orderBy:'name' track by subject.id">
+							<option value="">All Subjects</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label>Description:</label>
+					<textarea class="form-control" ng-model="filter.description" required="required" placeholder="Description" ng-change="GetFilter()"></textarea>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default" ng-repeat="question in questions | limitTo: grid.size:(grid.currentPage-1)*grid.size | orderBy:'description'">
+					<div class="panel-heading">
+						{{ question.description && question.description.length > 150 ? question.description.substring(0, 150) + '...' : question.description }}
+					</div>
+					<div class="panel-body">
+						<label>{{ question.answer }}</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

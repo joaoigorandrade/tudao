@@ -1,0 +1,55 @@
+.test-content {
+	position: fixed;
+	margin-top: 50px;
+	height: 250px;
+	right: 0;
+	z-index: 1000;
+}
+
+.test-content .col-xs-6 {
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+.test-content .test-button {
+	display: inline-block;
+	height: 100%;
+	width: 50px !important;
+	max-width: 50px !important;
+}
+
+.test-content .test-button .btn {
+	height: 40px !important;
+	width: 50px !important;
+	word-wrap: break-word;
+	border-top-right-radius: 0px !important;
+	border-bottom-right-radius: 0px !important;
+}
+
+.test-content .test-button .btn .label {
+	position: absolute;
+	top: 1px;
+	left: 0;
+	cursor: pointer;
+}
+
+.test-content .test-panel {
+	border-top-left-radius: 0px !important;
+	border-bottom-left-radius: 0px !important;
+	display: inline-block;
+	height: 100%;
+	width: 250px;
+}
+
+.test-content .test-panel .panel-heading {
+	border-top-left-radius: 0px !important;
+	border-bottom-left-radius: 0px !important;
+	height: 40px !important;
+}
+
+.test-content .test-panel .panel-body {
+	overflow-y: auto !important;
+	overflow-x: hidden !important;
+	height: 208px !important;
+	max-height: 208px !important;
+}

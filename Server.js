@@ -6,6 +6,7 @@ var Cors            = require('cors');
 var EJS             = require('ejs');
 var Express         = require('express');
 var Path            = require('path');
+var Start 			= require('./Start');
 
 (function(self) {
 	var _init = function() {
@@ -21,8 +22,10 @@ var Path            = require('path');
 		App.use(Cors());
 		App.use(Express.static(Path.join(__dirname, 'public_html')));
 
-		App.listen(5011, function() {
-			console.log("Server has Started: http://localhost:5011");
+		Start.Init(App);
+
+		App.listen(80, function() {
+			console.log("Server has Started: http://localhost:80");
 		});
 	};
 
