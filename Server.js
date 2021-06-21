@@ -22,9 +22,9 @@ var Start 			= require('./Start');
 		App.use(Cors());
 		App.use(Express.static(Path.join(__dirname, 'public_html')));
 
-		Start.Init(App);
-
-		App.listen(1337, function() {
+		Start.Init(App);	
+		process.env["PORT"] = 1337;
+		App.listen(process.env.PORT || 1337, function() {
 			console.log("Server has Started: http://localhost:1337");
 		});
 	};
