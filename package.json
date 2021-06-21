@@ -4,7 +4,7 @@
   "description": "Tudão - Engenharia de Software",
   "main": "Server.js",
   "scripts": {
-    "build": "npm install && npm run test && bower install && gulp"
+    "build": "bower install && gulp"
   },
   "repository": {
     "type": "git",
